@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:http/http.dart';
 import 'package:weather_app/features/weather/data/data_providers/open_weather_api.dart';
 import 'package:weather_app/features/weather/data/models/weather.dart';
 
@@ -15,20 +13,20 @@ class WeatherRepositoryOpenWeatherMapImpl implements WeatherRepository {
 
   @override
   Future<Weather> getWeatherForCity({required String cityName}) async {
-    final Response rawWeather =
-        await weatherAPI.getRawWeatherForCity(cityName: cityName);
-    return _getWeatherFromUrl(rawWeather);
+    final String jsonWeather =
+        await weatherAPI.getJsonWeatherForCity(cityName: cityName);
+    return _getWeatherFromUrl(jsonWeather);
   }
 
   @override
   Future<Weather> getWeatherForCurrentLocation(
       {required int latitude, required int longitude}) async {
-    final Response rawWeather =
-        await weatherAPI.getRawWeatherForCurrentLocation(
+    final String jsonWeather =
+        await weatherAPI.getJsonWeatherForCurrentLocation(
             latitude: latitude, longitude: longitude);
-    return _getWeatherFromUrl(rawWeather);
+    return _getWeatherFromUrl(jsonWeather);
   }
 
-  Weather _getWeatherFromUrl(Response rawWeather) =>
-      Weather.fromJson(jsonDecode(rawWeather.body)['weather']);
+  Weather _getWeatherFromUrl(String jsonWeather) =>
+      Weather.fromJson(jsonDecode(jsonWeather)['weather'][0]);
 }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/features/weather/data/models/weather.dart';
 
+import 'features/weather/data/repositories/weather_repository.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -55,24 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   Future<void> _incrementCounter() async {
-    final http.Client client = http.Client();
-    final Uri url =
-        Uri.parse('https://api.openweathermap.org/data/2.5/weather?q=warsaw');
-    final response = await client.get(
-      url,
-      headers: {
-        'X-API-Key': '2f601ff27d95ea7a9d5f5a7b0db8822c',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      String data = response.body;
-      var dataJson = Weather.fromJson(jsonDecode(data)['weather'][0]['id']);
-      var odpowiedz = jsonDecode(data)['weather'][0]['id'];
-      print(odpowiedz);
-    } else {
-      throw (response.statusCode);
-    }
+    final WeatherRepository _weatherRepository =
+        WeatherRepositoryOpenWeatherMapImpl();
+    final weather =
+        await _weatherRepository.getWeatherForCity(cityName: 'warsaw');
+    print(weather.id);
   }
 
   @override
