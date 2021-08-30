@@ -13,10 +13,9 @@ class Weather {
   final String description;
   final String icon;
 
-  factory Weather.fromRawJson(String str) =>
-      Weather.fromJson(json.decode(str)['weather']);
-
-  String toRawJson() => json.encode(toJson());
+  // factory Weather.fromRawJson(String str) => Weather.fromJson(json.decode(str));
+  //
+  // String toRawJson() => json.encode(toJson());
 
   factory Weather.fromJson(Map<String, dynamic> json) => Weather(
         id: json["id"],
