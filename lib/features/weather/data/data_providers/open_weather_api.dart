@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:weather_app/core/error/errors.dart';
 
 abstract class WeatherAPI {
   Future<String> getJsonWeatherForCity({required String cityName});
@@ -29,6 +30,10 @@ class OpenWeatherAPI implements WeatherAPI {
         'X-API-Key': _apiKey,
       },
     );
-    return response.body;
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw NetworkException();
+    }
   }
 }
