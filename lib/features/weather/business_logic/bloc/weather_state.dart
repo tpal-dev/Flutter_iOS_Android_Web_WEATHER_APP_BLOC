@@ -1,4 +1,4 @@
-part of 'weather_cubit.dart';
+part of 'weather_bloc.dart';
 
 abstract class WeatherState extends Equatable {
   const WeatherState();

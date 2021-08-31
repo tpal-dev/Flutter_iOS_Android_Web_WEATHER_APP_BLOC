@@ -7,25 +7,17 @@ class Weather {
     required this.icon,
   });
 
+  factory Weather.fromJson(Map<String, dynamic> json) => Weather(
+        city: json['name'],
+        temp: json['main']['temp'],
+        sky: json['weather'][0]['main'],
+        description: json['weather'][0]['description'],
+        icon: json['weather'][0]['icon'],
+      );
+
   final String city;
   final double temp;
   final String sky;
   final String description;
   final String icon;
-
-  factory Weather.fromJson(Map<String, dynamic> json) => Weather(
-        city: json['name'],
-        temp: json['main']['temp'],
-        sky: json['weather'][0]["main"],
-        description: json['weather'][0]["description"],
-        icon: json['weather'][0]["icon"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": city,
-        "temp": temp,
-        "main": sky,
-        "description": description,
-        "icon": icon,
-      };
 }

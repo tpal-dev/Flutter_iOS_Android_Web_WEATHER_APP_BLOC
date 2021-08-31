@@ -9,15 +9,15 @@ import 'package:weather_app/features/weather/data/repositories/weather_repositor
 part 'weather_state.dart';
 
 class WeatherCubit extends Cubit<WeatherState> {
-  final WeatherRepository _weatherRepository;
-  static const _networkExceptionMessage =
-      'Couldn\'t fetch weather. Is the device online?';
-  static const _badRequestExceptionMessage = 'Bad request. City not found.';
-
   WeatherCubit({
     required WeatherRepository weatherRepository,
   })  : _weatherRepository = weatherRepository,
         super(const WeatherInitial());
+
+  final WeatherRepository _weatherRepository;
+  static const _networkExceptionMessage =
+      'Couldn\'t fetch weather. Is the device online?';
+  static const _badRequestExceptionMessage = 'Bad request. City not found.';
 
   Future<void> getWeatherForCity(String cityName) async {
     try {
