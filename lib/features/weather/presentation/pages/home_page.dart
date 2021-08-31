@@ -110,15 +110,20 @@ class CityInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String textField = '';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: TextField(
+        onChanged: (value) => textField = value,
         onSubmitted: (value) => _submitCityName(context, value),
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
           hintText: 'Enter a city',
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-          suffixIcon: const Icon(Icons.search),
+          suffixIcon: GestureDetector(
+            onTap: () => _submitCityName(context, textField),
+            child: const Icon(Icons.search),
+          ),
         ),
       ),
     );
