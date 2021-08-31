@@ -23,7 +23,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   ) async* {
     if (event is GetWeatherForCity) {
       try {
-        yield WeatherFetchInProgress();
+        yield const WeatherFetchInProgress();
         final weather = await _weatherRepository.getWeatherForCity(
             cityName: event.cityName);
         yield WeatherFetchSuccess(weather: weather);

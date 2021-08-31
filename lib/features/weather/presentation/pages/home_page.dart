@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/features/weather/business_logic/bloc/weather_bloc.dart';
 import 'package:weather_app/features/weather/data/models/weather.dart';
 import 'package:weather_app/features/weather/presentation/widgets/change_theme_button_widget.dart';
-import 'package:weather_app/theme/theme_provider.dart';
+import 'package:weather_app/theme/cubit/theme_cubit.dart';
+import 'package:weather_app/theme/theme.dart';
 // TODO: bloc to cubit change: delete bloc import
 // import 'package:weather_app/features/weather/business_logic/cubit/weather_cubit.dart';
 
@@ -14,10 +15,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final switchText =
-        context.watch<ThemeProvider>().themeMode == ThemeMode.dark
-            ? 'DarkTheme'
-            : 'LightTheme';
+    final switchText = (context.watch<ThemeCubit>().state.isDarkMode)
+        ? 'DarkTheme'
+        : 'LightTheme';
 
     return Scaffold(
       appBar: AppBar(

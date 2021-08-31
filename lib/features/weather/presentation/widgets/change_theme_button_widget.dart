@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/theme/theme_provider.dart';
+import 'package:weather_app/theme/cubit/theme_cubit.dart';
 
 class ChangeThemeButtonWidget extends StatelessWidget {
   const ChangeThemeButtonWidget({Key? key}) : super(key: key);
@@ -8,9 +8,9 @@ class ChangeThemeButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Switch(
-      value: context.watch<ThemeProvider>().isDarkMode,
+      value: context.watch<ThemeCubit>().state.isDarkMode,
       inactiveTrackColor: Colors.grey,
-      onChanged: (value) => context.read<ThemeProvider>().toggleTheme(value),
+      onChanged: (value) => context.read<ThemeCubit>().updateTheme(value),
     );
   }
 }
