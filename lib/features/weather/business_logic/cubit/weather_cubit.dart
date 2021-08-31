@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:weather_app/core/error/errors.dart';
@@ -10,6 +12,7 @@ class WeatherCubit extends Cubit<WeatherState> {
   final WeatherRepository _weatherRepository;
   static const _networkExceptionMessage =
       'Couldn\'t fetch weather. Is the device online?';
+  static const _badRequestExceptionMessage = 'Bad request. City not found.';
 
   WeatherCubit({
     required WeatherRepository weatherRepository,
@@ -23,9 +26,12 @@ class WeatherCubit extends Cubit<WeatherState> {
           await _weatherRepository.getWeatherForCity(cityName: cityName);
       emit(WeatherFetchSuccess(weather: weather));
     } on NetworkException {
+      emit(const WeatherFetchFailure(errorMessage: _networkExceptionMessage));
+    } on SocketException {
+      emit(const WeatherFetchFailure(errorMessage: _networkExceptionMessage));
+    } on BadRequestException {
       emit(
-        const WeatherFetchFailure(errorMessage: _networkExceptionMessage),
-      );
+          const WeatherFetchFailure(errorMessage: _badRequestExceptionMessage));
     }
   }
 }

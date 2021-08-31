@@ -14,13 +14,13 @@ class OpenWeatherAPI implements WeatherAPI {
   @override
   Future<String> getJsonWeatherForCity({required String cityName}) =>
       _getJsonWeatherFromUrl(
-          'https://api.openweathermap.org/data/2.5/weather?q=$cityName');
+          'https://api.openweathermap.org/data/2.5/weather?q=$cityName&units=metric');
 
   @override
   Future<String> getJsonWeatherForCurrentLocation(
           {required int latitude, required int longitude}) =>
       _getJsonWeatherFromUrl(
-          'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude');
+          'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric');
 
   Future<String> _getJsonWeatherFromUrl(String url) async {
     final Uri uri = Uri.parse(url);
@@ -32,6 +32,8 @@ class OpenWeatherAPI implements WeatherAPI {
     );
     if (response.statusCode == 200) {
       return response.body;
+    } else if (response.statusCode == 404) {
+      throw BadRequestException();
     } else {
       throw NetworkException();
     }

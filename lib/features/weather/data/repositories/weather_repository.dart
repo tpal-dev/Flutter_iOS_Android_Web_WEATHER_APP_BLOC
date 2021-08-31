@@ -35,6 +35,6 @@ class WeatherRepositoryOpenWeatherMapImpl implements WeatherRepository {
   }
 
   Weather _getWeatherFromUrl(String jsonWeather) {
-    return Weather.fromJson(jsonDecode(jsonWeather)['weather'][0]);
+    return Weather.fromJson(jsonDecode(jsonWeather));
   }
 }

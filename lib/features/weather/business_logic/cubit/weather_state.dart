@@ -40,4 +40,9 @@ class WeatherFetchFailure extends WeatherState {
 
   @override
   List<Object> get props => [errorMessage];
+
+  @override
+  String toString() {
+    return 'WeatherFetchFailure{errorMessage: $errorMessage}';
+  }
 }
