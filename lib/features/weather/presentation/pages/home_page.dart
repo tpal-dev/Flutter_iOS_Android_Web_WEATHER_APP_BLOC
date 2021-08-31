@@ -1,24 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/features/weather/business_logic/cubit/weather_cubit.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_app/features/weather/business_logic/bloc/weather_bloc.dart';
 import 'package:weather_app/features/weather/data/models/weather.dart';
+import 'package:weather_app/features/weather/presentation/widgets/change_theme_button_widget.dart';
 import 'package:weather_app/theme/theme_provider.dart';
+// TODO: bloc to cubit change: delete bloc import
+// import 'package:weather_app/features/weather/business_logic/cubit/weather_cubit.dart';
 
 class HomePage extends StatelessWidget {
-  static const String _title = 'BloC Weather App';
   const HomePage({Key? key}) : super(key: key);
+  static const String _title = 'BloC Weather App';
 
   @override
   Widget build(BuildContext context) {
+    final switchText =
+        context.watch<ThemeProvider>().themeMode == ThemeMode.dark
+            ? 'DarkTheme'
+            : 'LightTheme';
+
     return Scaffold(
-      appBar: AppBar(title: const Text(_title)),
+      appBar: AppBar(
+        title: const Text(_title),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: SizedBox(
+              child: Column(
+                children: [
+                  const Flexible(flex: 3, child: ChangeThemeButtonWidget()),
+                  const Flexible(child: SizedBox(height: 5.0)),
+                  Flexible(flex: 2, child: Text(switchText)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           const WeatherBackground(),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16),
             alignment: Alignment.center,
-            child: BlocConsumer<WeatherCubit, WeatherState>(
+            // TODO: bloc to cubit change: <WeatherCubit, WeatherState>
+            child: BlocConsumer<WeatherBloc, WeatherState>(
               listener: (context, state) {
                 if (state is WeatherFetchFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -71,8 +97,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         Text(
-          // Display the temperature with 1 decimal place
-          "${weather.temp.toStringAsFixed(1)} °C",
+          '${weather.temp.toStringAsFixed(1)} °C',
           style: const TextStyle(fontSize: 80),
         ),
         const CityInputField(),
@@ -92,7 +117,7 @@ class CityInputField extends StatelessWidget {
         onSubmitted: (value) => _submitCityName(context, value),
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
-          hintText: "Enter a city",
+          hintText: 'Enter a city',
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           suffixIcon: const Icon(Icons.search),
         ),
@@ -101,6 +126,8 @@ class CityInputField extends StatelessWidget {
   }
 
   void _submitCityName(BuildContext context, String cityName) {
-    context.read<WeatherCubit>().getWeatherForCity(cityName);
+    // TODO: bloc to cubit change:
+    // context.read<WeatherCubit>().getWeatherForCity(cityName);
+    context.read<WeatherBloc>().add(GetWeatherForCity(cityName));
   }
 }
