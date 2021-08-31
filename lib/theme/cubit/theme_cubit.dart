@@ -1,29 +1,18 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-part 'theme_state.dart';
+class ThemeCubit extends Cubit<bool> with HydratedMixin {
+  ThemeCubit() : super(true);
 
-class ThemeCubit extends Cubit<ThemeState> {
-  ThemeCubit()
-      : super(const ThemeState(
-          isDarkMode: true,
-          themeMode: ThemeMode.dark,
-        ));
+  void updateTheme(bool isDarkMode) => (isDarkMode) ? emit(true) : emit(false);
 
-  void updateTheme(bool isDarkMode) {
-    if (isDarkMode) {
-      emit(state.copyWith(
-        themeMode: ThemeMode.dark,
-        isDarkMode: true,
-      ));
-    } else {
-      emit(state.copyWith(
-        themeMode: ThemeMode.light,
-        isDarkMode: false,
-      ));
-    }
+  @override
+  bool? fromJson(Map<String, dynamic> json) {
+    return json['isDarkMode'] as bool;
+  }
+
+  @override
+  Map<String, dynamic>? toJson(bool state) {
+    return <String, bool>{'isDarkMode': state};
   }
 }

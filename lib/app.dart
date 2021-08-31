@@ -41,16 +41,14 @@ class MyAppView extends StatelessWidget {
   final AppRouter appRouter;
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<ThemeCubit, ThemeState>(
-        builder: (context, themeState) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            onGenerateRoute: appRouter.onGenerateRoute,
-            title: _title,
-            themeMode: themeState.themeMode,
-            theme: MyThemes.lightTheme,
-            darkTheme: MyThemes.darkTheme,
-          );
-        },
+  Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: appRouter.onGenerateRoute,
+        title: _title,
+        themeMode: (context.watch<ThemeCubit>().state)
+            ? ThemeMode.dark
+            : ThemeMode.light,
+        theme: MyThemes.lightTheme,
+        darkTheme: MyThemes.darkTheme,
       );
 }

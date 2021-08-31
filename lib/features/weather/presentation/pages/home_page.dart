@@ -15,9 +15,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final switchText = (context.watch<ThemeCubit>().state.isDarkMode)
-        ? 'DarkTheme'
-        : 'LightTheme';
+    final switchText =
+        (context.watch<ThemeCubit>().state) ? 'DarkTheme' : 'LightTheme';
 
     return Scaffold(
       appBar: AppBar(

@@ -8,7 +8,7 @@ class ChangeThemeButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Switch(
-      value: context.watch<ThemeCubit>().state.isDarkMode,
+      value: context.watch<ThemeCubit>().state,
       inactiveTrackColor: Colors.grey,
       onChanged: (value) => context.read<ThemeCubit>().updateTheme(value),
     );
