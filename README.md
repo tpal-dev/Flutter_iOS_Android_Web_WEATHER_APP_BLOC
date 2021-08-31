@@ -30,7 +30,7 @@ TODO:
 - hydrated_bloc: ^7.0.1
 - path_provider: ^2.0.2
 
-## analysis_options.yaml
+## Usefull configuration for the ''analysis_options.yaml''
 ```
 include: package:flutter_lints/flutter.yaml
 
