@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:weather_app/core/error/exceptions.dart';
 

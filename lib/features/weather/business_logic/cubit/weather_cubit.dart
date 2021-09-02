@@ -28,7 +28,7 @@ class WeatherCubit extends Cubit<WeatherState> {
     } on BadRequestException {
       emit(
           const WeatherFetchFailure(errorMessage: _badRequestExceptionMessage));
-    } on SocketException catch (e) {
+    } on SocketException {
       emit(const WeatherFetchFailure(errorMessage: _socketExceptionMessage));
     } on Exception catch (e) {
       emit(WeatherFetchFailure(
