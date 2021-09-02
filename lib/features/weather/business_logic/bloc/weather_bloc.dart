@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:weather_app/core/error/errors.dart';
+import 'package:weather_app/core/error/exceptions.dart';
 import 'package:weather_app/features/weather/data/models/weather.dart';
 import 'package:weather_app/features/weather/data/repositories/weather_repository.dart';
 
@@ -13,9 +13,9 @@ part 'weather_state.dart';
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherBloc(this._weatherRepository) : super(const WeatherInitial());
   final WeatherRepository _weatherRepository;
-  static const _networkExceptionMessage =
+  static const _socketExceptionMessage =
       'Couldn\'t fetch weather. Is the device online?';
-  static const _badRequestExceptionMessage = 'Bad request. City not found.';
+  static const _badRequestExceptionMessage = 'City not found.';
 
   @override
   Stream<WeatherState> mapEventToState(
@@ -27,13 +27,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         final weather = await _weatherRepository.getWeatherForCity(
             cityName: event.cityName);
         yield WeatherFetchSuccess(weather: weather);
-      } on NetworkException {
-        yield const WeatherFetchFailure(errorMessage: _networkExceptionMessage);
-      } on SocketException {
-        yield const WeatherFetchFailure(errorMessage: _networkExceptionMessage);
       } on BadRequestException {
         yield const WeatherFetchFailure(
             errorMessage: _badRequestExceptionMessage);
+      } on SocketException {
+        yield const WeatherFetchFailure(errorMessage: _socketExceptionMessage);
+      } on Exception catch (e) {
+        yield WeatherFetchFailure(
+            errorMessage: 'Sorry, we have some problems. $e');
       }
     }
   }

@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
-import 'package:weather_app/core/error/errors.dart';
+import 'package:weather_app/core/error/exceptions.dart';
 
 abstract class WeatherAPI {
   Future<String> getJsonWeatherForCity({required String cityName});
@@ -35,7 +37,7 @@ class OpenWeatherAPI implements WeatherAPI {
     } else if (response.statusCode == 404) {
       throw BadRequestException();
     } else {
-      throw NetworkException();
+      throw Exception(response.statusCode.toString());
     }
   }
 }

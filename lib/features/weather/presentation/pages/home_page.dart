@@ -9,6 +9,7 @@ import 'package:weather_app/theme/theme.dart';
 // TODO: bloc to cubit change: delete bloc import
 // import 'package:weather_app/features/weather/business_logic/cubit/weather_cubit.dart';
 
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
   static const String _title = 'BloC Weather App';
