@@ -4,7 +4,7 @@ import 'package:weather_app/core/error/exceptions.dart';
 abstract class WeatherAPI {
   Future<String> getJsonWeatherForCity({required String cityName});
   Future<String> getJsonWeatherForCurrentLocation(
-      {required int latitude, required int longitude});
+      {required double latitude, required double longitude});
 }
 
 class OpenWeatherAPI implements WeatherAPI {
@@ -18,7 +18,7 @@ class OpenWeatherAPI implements WeatherAPI {
 
   @override
   Future<String> getJsonWeatherForCurrentLocation(
-          {required int latitude, required int longitude}) =>
+          {required double latitude, required double longitude}) =>
       _getJsonWeatherFromUrl(
           'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric');
 

@@ -9,7 +9,6 @@ import 'package:weather_app/theme/theme.dart';
 // TODO: bloc to cubit change: delete bloc import
 // import 'package:weather_app/features/weather/business_logic/cubit/weather_cubit.dart';
 
-
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
   static const String _title = 'BloC Weather App';
@@ -36,6 +35,11 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.gps_fixed),
+        onPressed: () =>
+            context.read<WeatherBloc>().add(const GetWeatherForLocation()),
       ),
       body: Stack(
         children: [

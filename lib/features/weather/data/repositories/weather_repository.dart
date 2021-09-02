@@ -12,7 +12,7 @@ abstract class WeatherRepository {
   ///
   /// Throws a [NetworkException] for all error codes.
   Future<Weather> getWeatherForCurrentLocation(
-      {required int latitude, required int longitude});
+      {required double latitude, required double longitude});
 }
 
 class WeatherRepositoryOpenWeatherMapImpl implements WeatherRepository {
@@ -27,7 +27,7 @@ class WeatherRepositoryOpenWeatherMapImpl implements WeatherRepository {
 
   @override
   Future<Weather> getWeatherForCurrentLocation(
-      {required int latitude, required int longitude}) async {
+      {required double latitude, required double longitude}) async {
     final String jsonWeather =
         await weatherAPI.getJsonWeatherForCurrentLocation(
             latitude: latitude, longitude: longitude);
