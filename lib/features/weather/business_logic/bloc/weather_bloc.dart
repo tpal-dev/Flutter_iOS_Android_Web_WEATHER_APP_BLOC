@@ -47,10 +47,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   Stream<WeatherState> _mapGetWeatherForLocation(
     GetWeatherForLocation event,
   ) async* {
-    final location = await Location.determinePosition();
-    final futureWeather = _weatherRepository.getWeatherForCurrentLocation(
-        latitude: location.latitude, longitude: location.longitude);
-    yield* _mapGetWeather(event, futureWeather);
+    try {
+      final location = await Location.determinePosition();
+      final futureWeather = _weatherRepository.getWeatherForCurrentLocation(
+          latitude: location.latitude, longitude: location.longitude);
+      yield* _mapGetWeather(event, futureWeather);
+    } catch (e) {
+      yield WeatherFetchFailure(errorMessage: e.toString());
+    }
   }
 
   @override
