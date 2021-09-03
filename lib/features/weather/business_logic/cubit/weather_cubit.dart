@@ -21,21 +21,22 @@ class WeatherCubit extends Cubit<WeatherState> {
   static const _badRequestExceptionMessage = 'City not found.';
 
   Future<void> getWeatherForCity(String cityName) async {
-    final weather =
-        await _weatherRepository.getWeatherForCity(cityName: cityName);
-    return _getWeather(weather);
+    final futureWeather =
+        _weatherRepository.getWeatherForCity(cityName: cityName);
+    return _getWeather(futureWeather);
   }
 
   Future<void> getWeatherForLocation() async {
     final location = await Location.determinePosition();
-    final weather = await _weatherRepository.getWeatherForCurrentLocation(
+    final futureWeather = _weatherRepository.getWeatherForCurrentLocation(
         latitude: location.latitude, longitude: location.longitude);
-    return _getWeather(weather);
+    return _getWeather(futureWeather);
   }
 
-  Future<void> _getWeather(Weather weather) async {
+  Future<void> _getWeather(Future<Weather> futureWeather) async {
     try {
       emit(const WeatherFetchInProgress());
+      final weather = await futureWeather;
       emit(WeatherFetchSuccess(weather: weather));
     } on BadRequestException {
       emit(

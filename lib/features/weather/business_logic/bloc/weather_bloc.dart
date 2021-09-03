@@ -20,10 +20,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
   Stream<WeatherState> _mapGetWeather(
     WeatherEvent event,
-    Weather weather,
+    Future<Weather> futureWeather,
   ) async* {
     try {
       yield const WeatherFetchInProgress();
+      final weather = await futureWeather;
       yield WeatherFetchSuccess(weather: weather);
     } on BadRequestException {
       yield const WeatherFetchFailure(
@@ -38,18 +39,18 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
   Stream<WeatherState> _mapGetWeatherForCityToState(
       GetWeatherForCity event) async* {
-    final weather =
-        await _weatherRepository.getWeatherForCity(cityName: event.cityName);
-    yield* _mapGetWeather(event, weather);
+    final futureWeather =
+        _weatherRepository.getWeatherForCity(cityName: event.cityName);
+    yield* _mapGetWeather(event, futureWeather);
   }
 
   Stream<WeatherState> _mapGetWeatherForLocation(
     GetWeatherForLocation event,
   ) async* {
     final location = await Location.determinePosition();
-    final weather = await _weatherRepository.getWeatherForCurrentLocation(
+    final futureWeather = _weatherRepository.getWeatherForCurrentLocation(
         latitude: location.latitude, longitude: location.longitude);
-    yield* _mapGetWeather(event, weather);
+    yield* _mapGetWeather(event, futureWeather);
   }
 
   @override
