@@ -1,6 +1,6 @@
 # Weather App - BloC Pattern + Unit Tests
 
-A Flutter application created on the iOS, Android, desktop and web.
+A Flutter application developed for the iOS, Android and web.
 
 ## Description
 
@@ -8,20 +8,32 @@ Weather app, based on live weather data in the current location of the device as
 
 You can find here:
 
-- Bloc Architecture 
+### BLOC ARCHITECTURE
 
 ![alt text](https://i.ibb.co/jWQ7B3j/bloc-architecture.png)
 
 - How to use a BloC and Cubits to separate presentation from business logic.
 - Hydrated Bloc package which automatically persists and restores bloc and cubit states.
-- Generated Routing & Access
+
+### 1.0 NAVIGATION & ROUTING:
+- Generated Routing ( Route names and thier associated screens are set up inside a separate onGeneratRoute function).
+
+### NETWORKING:
 - Use API to get data from the internet.
 - How to network with the Dart http package.
 - Parse JSONs are and  them using the Dart convert package.
 
-TODO:
-- Geolocator package to get live location data.
+### GPS LOCATION:
+- Geolocator package to get live location data. [CONFIGURATION LINK](https://pub.dev/packages/geolocator#usage)
+
+### TESTING:
 - Unit tests
+
+dev_dependencies:
+- bloc_test: ^8.1.0
+- mockito: ^5.0.15
+- flutter_test:
+    - sdk: flutter
 
 ## Flutter packages
 - flutter_bloc: ^7.2.0
@@ -29,6 +41,7 @@ TODO:
 - http: ^0.13.3
 - hydrated_bloc: ^7.0.1
 - path_provider: ^2.0.2
+- geolocator: ^7.6.0
 
 ## Usefull configuration for the ''analysis_options.yaml''
 ```
